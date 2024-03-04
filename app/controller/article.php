@@ -5,7 +5,7 @@ namespace app\controller;
 
 use think\Request;
 use app\model\Article as ArticleModel;
-class article extends AdminBase
+class Article extends AdminBase
 {
     /**hph
      * 显示资源列表

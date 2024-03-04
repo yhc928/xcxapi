@@ -16,10 +16,10 @@ Route::get('/api/count', 'index/getCount');
 // 更新计数，自增或者清零
 Route::post('/api/count', 'index/updateCount');
 Route::rule('login','Login/login');
-Route::rule('article','article/index');
-Route::rule('articles','article/save');
-Route::rule('articled','article/delete');
-Route::rule('articleu','article/update');
+Route::rule('article','Article/index');
+Route::rule('articles','Article/save');
+Route::rule('articled','Article/delete');
+Route::rule('articleu','Article/update');
 //上传富文本编辑器中的图片
 Route::rule('upload','UploadImg/upload');
 //文章中的封面图片
