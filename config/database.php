@@ -24,21 +24,21 @@ return [
             // 数据库类型
             'type' => 'mysql',
             // 服务器地址
-            'hostname' => preg_split('/:/',getenv('MYSQL_ADDRESS'))[0],
+            'hostname' => 'sh-cynosdbmysql-grp-expcoe4a.sql.tencentcdb.com',
             // 服务器端口
-            'hostport' =>  preg_split('/:/',getenv('MYSQL_ADDRESS'))[1],
+            'hostport' => '23923',
             // 用户名
-            'username' => getenv('MYSQL_USERNAME'),
+            'username' => 'root',
             // 密码
-            'password' => getenv('MYSQL_PASSWORD'),
+            'password' => 'KzSyu9D2',
             // 数据库名
-            'database' => (getenv('MYSQL_DATABASE') == null) ? 'thinkphp_demo' : getenv('MYSQL_DATABASE'),
+            'database' => 'xiaochengxu',
             // 数据库连接参数
             'params' => [],
             // 数据库编码默认采用utf8
             'charset' => 'utf8',
             // 数据库表前缀
-            'prefix' => '',
+            'prefix' => 'tp_',
             // 数据库部署方式:0 集中式(单一服务器),1 分布式(主从服务器)
             'deploy' => 0,
             // 数据库读写是否分离 主从式有效
