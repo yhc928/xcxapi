@@ -77,7 +77,6 @@ class Login extends AdminBase
 
        if ((int)$result)
        {
-
            Session::set('token', $this->createToken());
            $data['token'] =  Session::get('token');
            return $this->create($data,'登录成功!',200);
