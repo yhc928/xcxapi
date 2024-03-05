@@ -79,7 +79,7 @@ class Login extends AdminBase
        {
 
            Session::set('token', $this->createToken());
-          $data['token'] =  Session::get('token');
+           $data['token'] =  Session::get('token');
            return $this->create($data,'登录成功!',200);
 
        }else{
