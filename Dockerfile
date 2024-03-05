@@ -36,6 +36,7 @@ RUN cp /app/conf/nginx.conf /etc/nginx/conf.d/default.conf \
     && cp /app/conf/php.ini /etc/php7/php.ini \
     && mkdir -p /run/nginx \
     && chmod -R 777 /app/runtime \
+    && chmod -R 777 /app/public \
     && mv /usr/sbin/php-fpm7 /usr/sbin/php-fpm
 
 # 暴露端口
