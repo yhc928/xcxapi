@@ -17,8 +17,13 @@ class Cover extends AdminBase
 
         foreach ($files as $file){
 
-            $info[] = Filesystem::putfile('topic',$file);
+            $info[] = \think\facade\Filesystem::disk('public')->putFile( 'topic', $file);;
         }
+        // 移动临时文件至指定目录
+//        Filesystem::disk()->move($file->getRealPath(), $savePath . $file->hashName());
+//
+//        // 生成完整的URL地址
+//        $url = request()->domain() . $savePath . $file->hashName();
 
        // dump($info);
 
