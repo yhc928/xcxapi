@@ -7,7 +7,7 @@ return [
     'disks'   => [
         'local'  => [
             'type' => 'local',
-            'root' => app()->getRootPath() . 'public/storage',
+            'root' => app()->getRuntimePath() . 'storage',
         ],
         'public' => [
             // 磁盘类型

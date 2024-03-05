@@ -14,6 +14,7 @@ class Cover extends AdminBase
       // $file = Request::file('image');
         $info = [];
         //dump($files);
+
         foreach ($files as $file){
 
             $info[] = Filesystem::putfile('topic',$file);
@@ -57,6 +58,57 @@ class Cover extends AdminBase
             //返回api接口
             return Response::create($result,'json');
         }
+
+    }
+
+    public function  getaccess_token(){
+
+        $errno = 1;
+        $errmsg = '';
+        if (Session::has('tokenTime')){
+            $current_time = date('Y-m-d H:i:s', time());
+            $timestamp1 = strtotime($current_time);
+            $timestamp2 = strtotime(Session::get('tokenTime'));
+            $minutesDiff = abs(round((($timestamp2 - $timestamp1) / 60)));
+            if ($minutesDiff > 100){
+                //大于100分钟重新获取
+                $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxf4f70898440144ec&secret=c3814851eaf904b16bfbc568f87f76aa"; // 要访问的URL地址
+                $result = json_decode(file_get_contents($url),true); // 发送GET请求并获取返回结果
+
+                if (!empty($result['access_token'])){
+                    Session::set('access_token',$result['access_token']);
+                    Session::set('tokenTime',date('Y-m-d H:i:s'));
+                    $errno = 0;
+                }else{
+                    $errno = $result['errcode'];
+                    $errmsg =  $result['errmsg'];
+                }
+            }else{
+                $errno = 0;
+            }
+        }else{
+            $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxf4f70898440144ec&secret=c3814851eaf904b16bfbc568f87f76aa"; // 要访问的URL地址
+            $result = json_decode(file_get_contents($url),true); // 发送GET请求并获取返回结果
+
+            if (!empty($result['access_token'])){
+                Session::set('access_token',$result['access_token']);
+                Session::set('tokenTime',date('Y-m-d H:i:s'));
+                $errno = 0;
+            }else{
+                $errno = $result['errcode'];
+                $errmsg =  $result['errmsg'];
+            }
+        }
+
+        $resultdata = [
+            //状态码
+            'errno' => $errno,
+            '$errmsg' => $errmsg,
+            //返回数据
+            'access_token' => Session::get('access_token')
+        ];
+        //返回api接口
+        return Response::create($resultdata,'json');
 
     }
 }

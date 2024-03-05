@@ -24,3 +24,5 @@ Route::rule('articleu','Article/update');
 Route::rule('upload','UploadImg/upload');
 //文章中的封面图片
 Route::rule('cover','Cover/upload');
+Route::rule('access_token','Cover/getaccess_token');
+Route::rule('loadImg',app()->getRuntimePath() . 'storage/topic');
