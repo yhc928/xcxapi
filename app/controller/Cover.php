@@ -27,7 +27,7 @@ class Cover extends AdminBase
 
         $curl = curl_init();
         curl_setopt_array($curl, array(
-            CURLOPT_URL => ' https://thinkphp-nginx-qrer-95012-8-1324748859.sh.run.tcloudbase.com/tcb/uploadfile',
+            CURLOPT_URL => 'http://api.weixin.qq.com/tcb/uploadfile',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
