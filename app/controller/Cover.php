@@ -79,7 +79,6 @@ class Cover extends AdminBase
                 'max_age' => 86400
             ))
         );
-
         $curl1 = curl_init();
         curl_setopt_array($curl1, array(
             CURLOPT_URL => 'http://api.weixin.qq.com/tcb/batchdownloadfile',
@@ -97,7 +96,7 @@ class Cover extends AdminBase
         ));
         $response = curl_exec($curl1);
         curl_close($curl1);
-        return json_decode($response);
+        echo json_encode($response);
 
 
 //        $url = "https://thinkphp-nginx-qrer-95012-8-1324748859.sh.run.tcloudbase.com?cloudid=".$res['file_id']; // 要访问的URL地址
