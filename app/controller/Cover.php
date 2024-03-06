@@ -62,7 +62,7 @@ class Cover extends AdminBase
                 'Signature'=> $Signature,
                 'x-cos-security-token' =>$security_token,
                 'x-cos-meta-fileid' =>$meta_fileid,
-                'file' => '@/public/storage/'.$info[0] // 上传文件路径
+                'file' => '@'.app()->getRootPath().'/public/storage/'.$info[0] // 上传文件路径
             );
             curl_setopt($ucurl, CURLOPT_URL, $res['url']); // 设置URL地址
             curl_setopt($ucurl, CURLOPT_RETURNTRANSFER, true); // 返回结果而不直接输出到页面
