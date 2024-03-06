@@ -19,45 +19,72 @@ class Cover extends AdminBase
 
             $info[] = Filesystem::putfile('topic',$file);
         }
-
+        echo '/storage/'.str_replace("\\","/",$info[0]);
        // dump($info);
 
-        if (count($info) != 0){
-            $currentUrl = \think\facade\Request::instance()->domain();
-            $data = ['imageUrl' => '/storage/'.$info[0]];
-            $id = UploadModel::create($data)->getData('id');
-            if (!empty($id)){
+        $ENVID = 'wxf4f70898440144ec';
+        $PATH = '/storage/'.str_replace("\\","/",$info[0]);
 
-                $result = [
-                    //状态码
-                    'errno' => 0,
-                    //返回数据
-                   'url'=> '/storage/'.$info[0]
-                ];
-                //返回api接口
-                return Response::create($result,'json');
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => ' https://thinkphp-nginx-qrer-95012-8-1324748859.sh.run.tcloudbase.com/tcb/uploadfile',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS =>'{"env":"'.$ENVID.'","path":"'.$PATH.'"}',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        $res = json_decode($response);
+        $res -> key = $PATH;
+        return json_encode($res);
 
 
-            }else{
-                $result = [
-                    //状态码
-                    'errno' => 1,
-                    //返回数据
-                    'message' => '失败了'
-                ];
-                //返回api接口
-                return Response::create($result,'json');
-            }
-        }else{
-            $result = [
-                //状态码
-                'errno' => 1,
-                //返回数据
-                'message' => '没有获取到图片'
-            ];
-            //返回api接口
-            return Response::create($result,'json');
-        }
+
+
+//        if (count($info) != 0){
+//            $currentUrl = \think\facade\Request::instance()->domain();
+//            $data = ['imageUrl' => '/storage/'.$info[0]];
+//            $id = UploadModel::create($data)->getData('id');
+//            if (!empty($id)){
+//
+//                $result = [
+//                    //状态码
+//                    'errno' => 0,
+//                    //返回数据
+//                   'url'=> '/storage/'.$info[0]
+//                ];
+//                //返回api接口
+//                return Response::create($result,'json');
+//
+//
+//            }else{
+//                $result = [
+//                    //状态码
+//                    'errno' => 1,
+//                    //返回数据
+//                    'message' => '失败了'
+//                ];
+//                //返回api接口
+//                return Response::create($result,'json');
+//            }
+//        }else{
+//            $result = [
+//                //状态码
+//                'errno' => 1,
+//                //返回数据
+//                'message' => '没有获取到图片'
+//            ];
+//            //返回api接口
+//            return Response::create($result,'json');
+//        }
 
     }
 

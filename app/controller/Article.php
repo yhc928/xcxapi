@@ -52,7 +52,24 @@ class Article extends AdminBase
             }
         }
     }
+    /**
+     * 显示指定的类型资源
+     *
+     * @param  int  $id
+     * @return \think\Response
+     */
+    public function readList(Request $request)
+    {
+        $data = $request->param();
 
+        $result = ArticleModel::where('typeid',$data['typeid'])->order('lasttime','desc')->paginate($this->pageSize);
+
+        if ($result->isEmpty()){
+            return $this->create($result,'暂无数据');
+        }else{
+            return $this->create($result,'数据请求成功');
+        }
+    }
     /**
      * 显示指定的资源
      *
@@ -106,4 +123,6 @@ class Article extends AdminBase
             return  $this->create([],'错误或无法删除~',201);
         }
     }
+
+
 }
