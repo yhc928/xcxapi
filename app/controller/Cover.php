@@ -41,17 +41,17 @@ class Cover extends AdminBase
         ));
         $response = curl_exec($curl);
         curl_close($curl);
-        $res = json_decode($response);
-        $res -> key = $PATH;
+        $res = json_decode($response,true);
+//        $res -> key = $PATH;
         echo json_encode($res);
         if ($res['errcode'] == 0){
             //上传文件到云托管
+            $key = $PATH;
+            $Signature = $res['authorization'];
+            $security_token = $res['token'];
+            $meta_fileid =$res['cos_file_id'];
+            $file = app()->getRootPath() . 'public/storage/'. $info[0];
 
-                $key = $res['key'];
-                $Signature = $res['authorization'];
-                $security_token = $res['token'];
-                $meta_fileid =$res['cos_file_id'];
-                $file = app()->getRootPath() . 'public/storage/'. $info[0];
 
             $ucurl = curl_init();
             curl_setopt_array($ucurl, array(
