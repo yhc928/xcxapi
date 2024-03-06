@@ -42,9 +42,7 @@ class Cover extends AdminBase
         $response = curl_exec($curl);
         curl_close($curl);
         $res = json_decode($response,true);
-//        $res -> key = $PATH;
-//        echo json_encode($res);
-//        echo "获取上传文件地址：".json_encode($res);
+
         if ($res['errcode'] == 0){
             //上传文件到云托管
 
@@ -53,8 +51,6 @@ class Cover extends AdminBase
             $security_token = $res['token'];
             $meta_fileid =$res['cos_file_id'];
             $file = file_get_contents(app()->getRootPath().'/public/storage/'.$info[0]);
-//            $file = app()->getRootPath().'public/storage/topic/'.date('Ymd');
-//            echo  $file;
 
             $ucurl = curl_init();
             $postData = array(
@@ -73,13 +69,30 @@ class Cover extends AdminBase
             $response1 = curl_exec($ucurl);
             curl_close($ucurl);
 
-            echo json_encode($response1);
-
-//            return json_encode($res1);
         }
 
-
-
+        $url = "https://thinkphp-nginx-qrer-95012-8-1324748859.sh.run.tcloudbase.com?cloudid=".$res['file_id']; // 要访问的URL地址
+        $result = json_decode(file_get_contents($url),true); // 发送GET请求并获取返回结果
+        if ($result['errcode'] ==0){
+            //获取到下载链接
+            $data = [
+                //状态码
+                  'errno' => $result['errcode'],
+                  //返回数据
+                  'errmsg' =>$result['file_list'][0]['errmsg'],
+                  'url'=> $result['file_list'][0]['download_url']
+            ];
+            return Response::create($data,'json');
+        }else{
+            $data = [
+                //状态码
+                'errno' => $result['errcode'],
+                'errmsg' => '图片上传失败！',
+                //返回数据
+                'url'=> ''
+            ];
+            return Response::create($data,'json');
+        }
 
 //        if (count($info) != 0){
 //            $currentUrl = \think\facade\Request::instance()->domain();
