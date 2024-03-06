@@ -42,6 +42,7 @@ class Article extends AdminBase
             return $this->create($data,'数据不能为空');
         }else{
             unset($data['id']);
+            $data['lasttime'] = date('Y-m-d H:i:s');
             //写入数据库
             $id = ArticleModel::create($data)->getData('id');
             if (empty($id)){
@@ -73,12 +74,12 @@ class Article extends AdminBase
     public function update(Request $request, $id)
     {
         $data = $request->param();
-
         //如果有图片，则重新组装url
         if (Empty($data)){
             return $this->create($data,'数据不能为空');
 
         }else{
+            $data['lasttime'] = date('Y-m-d H:i:s');
             $id = ArticleModel::update($data)->getData('id');
             if (empty($id)){
                 return $this->create([],'修改失败!',201);
