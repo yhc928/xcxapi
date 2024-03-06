@@ -52,7 +52,7 @@ class Cover extends AdminBase
             $Signature = $res['authorization'];
             $security_token = $res['token'];
             $meta_fileid =$res['cos_file_id'];
-            $file = file_get_contents(app()->getRootPath().'public/'.$info[0]);
+            $file = file_get_contents(app()->getRootPath().'public/storage/'.$info[0]);
 //            $file = app()->getRootPath().'public/storage/topic/'.date('Ymd');
 //            echo  $file;
 
