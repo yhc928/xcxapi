@@ -95,8 +95,8 @@ class Cover extends AdminBase
                 'Content-Type: application/json'
             ),
         ));
-        $response = curl_exec($curl);
-        curl_close($curl);
+        $response = curl_exec($curl1);
+        curl_close($curl1);
         return json_decode($response);
 
 
