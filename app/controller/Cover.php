@@ -74,9 +74,9 @@ class Cover extends AdminBase
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
                 CURLOPT_POSTFIELDS =>'{"key":"'.$key.'","Signature":"'.$Signature.'","x-cos-security-token":"'.$security_token.'","x-cos-meta-fileid":"'.$meta_fileid.'","file":"'.$fileName,$file.'"}',
-                CURLOPT_HTTPHEADER => array(
-                    'Content-Type: multipart/form-data'
-                ),
+//                CURLOPT_HTTPHEADER => array(
+//                    'Content-Type: multipart/form-data'
+//                ),
             ));
             $response1 = curl_exec($ucurl);
             curl_close($ucurl);
