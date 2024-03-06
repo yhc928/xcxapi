@@ -106,6 +106,7 @@ class Cover extends AdminBase
                   'errmsg' =>$res['errmsg'],
                   'url'=> $res['file_list'][0]['download_url']
             ];
+            return Response::create($data,'json');
         }else{
             $data = [
                 //状态码
@@ -116,7 +117,7 @@ class Cover extends AdminBase
             ];
             return Response::create($data,'json');
         }
-        
+
 
 //        if (count($info) != 0){
 //            $currentUrl = \think\facade\Request::instance()->domain();
