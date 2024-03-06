@@ -52,10 +52,18 @@ class Cover extends AdminBase
             $Signature = $res['authorization'];
             $security_token = $res['token'];
             $meta_fileid =$res['cos_file_id'];
-            $file = app()->getRootPath().'public/storage/topic/'.date('Ymd');
-            echo  $res['url'];
-            echo  $key;
+            $file = file_get_contents(app()->getRootPath().'public/'.$info[0]);
+//            $file = app()->getRootPath().'public/storage/topic/'.date('Ymd');
+//            echo  $file;
+
             $ucurl = curl_init();
+//            $postData = array(
+//                'key' => $key,
+//                'Signature'=> $Signature,
+//                'x-cos-security-token' =>$security_token,
+//                'x-cos-meta-fileid' =>$meta_fileid,
+//                'file' => new CURLFile('/path/to/file') // 上传文件路径
+//            );
             curl_setopt_array($ucurl, array(
                 CURLOPT_URL => $res['url'],
                 CURLOPT_RETURNTRANSFER => true,
@@ -65,9 +73,9 @@ class Cover extends AdminBase
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS =>'{"Content-Type":"image/jpeg","key":"'.$key.'","Signature":"'.$Signature.'","x-cos-security-token":"'.$security_token.'","x-cos-meta-fileid":"'.$meta_fileid.'","file":"'.$fileName,$file.'"}',
+                CURLOPT_POSTFIELDS =>'{"key":"'.$key.'","Signature":"'.$Signature.'","x-cos-security-token":"'.$security_token.'","x-cos-meta-fileid":"'.$meta_fileid.'","file":"'.$fileName,$file.'"}',
                 CURLOPT_HTTPHEADER => array(
-                    'Content-Type: application/json'
+                    'Content-Type: multipart/form-data'
                 ),
             ));
             $response1 = curl_exec($ucurl);
