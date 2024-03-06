@@ -16,7 +16,7 @@ class Article extends AdminBase
     {
         $data = $request->param();
 
-        $result = ArticleModel::where('typeid',$data['typeid'])->order('lasttime','desc')->paginate($this->pageSize);
+        $result = ArticleModel::order('lasttime','desc')->paginate($this->pageSize);
         //获取当前网址
         // $currentUrl = \think\facade\Request::instance()->domain();
         //组装封面图片的url

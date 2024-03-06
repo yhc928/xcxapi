@@ -104,6 +104,7 @@ class Cover extends AdminBase
                   'errno' => $res['errcode'],
                   //返回数据
                   'errmsg' =>$res['errmsg'],
+                  'fileid' => $res['file_list'][0]['fileid'],
                   'url'=> $res['file_list'][0]['download_url']
             ];
             return Response::create($data,'json');
@@ -113,6 +114,7 @@ class Cover extends AdminBase
                 'errno' => $res['errcode'],
                 'errmsg' => '图片上传失败！',
                 //返回数据
+                'fileid' => '',
                 'url'=> ''
             ];
             return Response::create($data,'json');
