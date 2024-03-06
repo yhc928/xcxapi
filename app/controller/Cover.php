@@ -24,7 +24,7 @@ class Cover extends AdminBase
         $ENVID = 'prod-4g7ozm3t0ab77771';
         $position = strpos($info[0], "\\");
         $fileName = substr($info[0],$position+1,strlen($info[0]));
-        echo $fileName;
+        echo "fileName 文件名：".$fileName;
         $PATH = 'cover/'.$fileName;
         $curl = curl_init();
         curl_setopt_array($curl, array(
@@ -46,14 +46,17 @@ class Cover extends AdminBase
         $res = json_decode($response,true);
 //        $res -> key = $PATH;
 //        echo json_encode($res);
+        echo "获取上传文件地址：".json_encode($res);
         if ($res['errcode'] == 0){
             //上传文件到云托管
+
             $key = $PATH;
             $Signature = $res['authorization'];
             $security_token = $res['token'];
             $meta_fileid =$res['cos_file_id'];
             $file = app()->getRootPath().'public/storage/'.$info[0];
 
+            echo "本地上传文件路径:".$file;
 
             $ucurl = curl_init();
             curl_setopt_array($ucurl, array(
