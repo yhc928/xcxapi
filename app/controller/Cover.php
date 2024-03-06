@@ -22,7 +22,7 @@ class Cover extends AdminBase
         echo '/storage/'.str_replace("\\","/",$info[0]);
        // dump($info);
 
-        $ENVID = 'wxf4f70898440144ec';
+        $ENVID = 'prod-4g7ozm3t0ab77771';
         $PATH = '/storage/'.str_replace("\\","/",$info[0]);
 
         $curl = curl_init();
