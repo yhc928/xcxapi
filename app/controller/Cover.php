@@ -52,32 +52,24 @@ class Cover extends AdminBase
             $Signature = $res['authorization'];
             $security_token = $res['token'];
             $meta_fileid =$res['cos_file_id'];
-            $file = file_get_contents(app()->getRootPath().'public/storage/'.$info[0]);
+            $file = file_get_contents(app()->getRootPath().'/public/storage/'.$info[0]);
 //            $file = app()->getRootPath().'public/storage/topic/'.date('Ymd');
 //            echo  $file;
 
             $ucurl = curl_init();
-//            $postData = array(
-//                'key' => $key,
-//                'Signature'=> $Signature,
-//                'x-cos-security-token' =>$security_token,
-//                'x-cos-meta-fileid' =>$meta_fileid,
-//                'file' => new CURLFile('/path/to/file') // 上传文件路径
-//            );
-            curl_setopt_array($ucurl, array(
-                CURLOPT_URL => $res['url'],
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS =>'{"key":"'.$key.'","Signature":"'.$Signature.'","x-cos-security-token":"'.$security_token.'","x-cos-meta-fileid":"'.$meta_fileid.'","file":"'.$file.'"}',
-//                CURLOPT_HTTPHEADER => array(
-//                    'Content-Type: multipart/form-data'
-//                ),
-            ));
+            $postData = array(
+                'key' => $key,
+                'Signature'=> $Signature,
+                'x-cos-security-token' =>$security_token,
+                'x-cos-meta-fileid' =>$meta_fileid,
+                'file' => '@/public/storage/'.$info[0] // 上传文件路径
+            );
+            curl_setopt($ucurl, CURLOPT_URL, $res['url']); // 设置URL地址
+            curl_setopt($ucurl, CURLOPT_RETURNTRANSFER, true); // 返回结果而不直接输出到页面
+            curl_setopt($ucurl, CURLOPT_POST, true); // 开启POST请求
+            // 设置POST请求体
+            curl_setopt($ucurl, CURLOPT_POSTFIELDS, $postData);
+
             $response1 = curl_exec($ucurl);
             curl_close($ucurl);
 
