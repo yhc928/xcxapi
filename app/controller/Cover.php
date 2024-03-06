@@ -75,7 +75,7 @@ class Cover extends AdminBase
         $param = array(
             'env' => $ENVID,
             'file_list' => array(array(
-                'fileid' => $CLOUDID,
+                'fileid' => $res['file_id'],
                 'max_age' => 86400
             ))
         );
@@ -90,7 +90,7 @@ class Cover extends AdminBase
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => json_encode($res['file_id']),
+            CURLOPT_POSTFIELDS => json_encode($param),
             CURLOPT_HTTPHEADER => array(
                 'Content-Type: application/json'
             ),
