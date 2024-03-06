@@ -23,7 +23,9 @@ class Cover extends AdminBase
 
         $ENVID = 'prod-4g7ozm3t0ab77771';
         $position = strpos($info[0], "\\");
-        $PATH = 'cover/'.substr($info[0],$position+1,strlen($info[0]));
+        $fileName = substr($info[0],$position+1,strlen($info[0]));
+        echo $fileName;
+        $PATH = 'cover/'.$fileName;
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => 'http://api.weixin.qq.com/tcb/uploadfile',
@@ -43,14 +45,14 @@ class Cover extends AdminBase
         curl_close($curl);
         $res = json_decode($response,true);
 //        $res -> key = $PATH;
-        echo json_encode($res);
+//        echo json_encode($res);
         if ($res['errcode'] == 0){
             //上传文件到云托管
             $key = $PATH;
             $Signature = $res['authorization'];
             $security_token = $res['token'];
             $meta_fileid =$res['cos_file_id'];
-            $file = app()->getRootPath() . 'public/storage/'. $info[0];
+            $file = app()->getRootPath().'public/storage/'.$info[0];
 
 
             $ucurl = curl_init();
@@ -63,7 +65,7 @@ class Cover extends AdminBase
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS =>'{"key":"'.$key.'","Signature":"'.$Signature.'","x-cos-security-token":"'.$security_token.'","x-cos-meta-fileid":"'.$meta_fileid.'","file":"'.$file.'"}',
+                CURLOPT_POSTFIELDS =>'{"key":"'.$key.'","Signature":"'.$Signature.'","x-cos-security-token":"'.$security_token.'","x-cos-meta-fileid":"'.$meta_fileid.'","file":"'.$fileName,$file.'"}',
                 CURLOPT_HTTPHEADER => array(
                     'Content-Type: application/json'
                 ),
