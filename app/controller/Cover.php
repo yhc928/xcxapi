@@ -43,7 +43,7 @@ class Cover extends AdminBase
         curl_close($curl);
         $res = json_decode($response);
         $res -> key = $PATH;
-//        return json_encode($res);
+        echo json_encode($res);
         if ($res['errcode'] == 0){
             //上传文件到云托管
 
@@ -70,8 +70,8 @@ class Cover extends AdminBase
             ));
             $response1 = curl_exec($ucurl);
             curl_close($ucurl);
-            $res1 = json_decode($response1);
-            return json_encode($res1);
+            echo $response1;
+//            return json_encode($res1);
         }
 
 
