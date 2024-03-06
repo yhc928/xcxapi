@@ -19,8 +19,8 @@ class Cover extends AdminBase
 
             $info[] = Filesystem::putfile('topic',$file);
         }
+        //echo app()->getRootPath() . 'public/storage/'. $info[0];
 
-       // dump($info);
         $ENVID = 'prod-4g7ozm3t0ab77771';
         $position = strpos($info[0], "\\");
         $PATH = 'cover/'.substr($info[0],$position+1,strlen($info[0]));
@@ -43,47 +43,76 @@ class Cover extends AdminBase
         curl_close($curl);
         $res = json_decode($response);
         $res -> key = $PATH;
-        return json_encode($res);
+//        return json_encode($res);
+        if ($res['errcode'] == 0){
+            //上传文件到云托管
 
+                $key = $res['key'];
+                $Signature = $res['authorization'];
+                $security_token = $res['token'];
+                $meta_fileid =$res['cos_file_id'];
+                $file = app()->getRootPath() . 'public/storage/'. $info[0];
 
-
-
-        if (count($info) != 0){
-            $currentUrl = \think\facade\Request::instance()->domain();
-            $data = ['imageUrl' => '/storage/'.$info[0]];
-            $id = UploadModel::create($data)->getData('id');
-            if (!empty($id)){
-
-                $result = [
-                    //状态码
-                    'errno' => 0,
-                    //返回数据
-                   'url'=> '/storage/'.$info[0]
-                ];
-                //返回api接口
-                return Response::create($result,'json');
-
-
-            }else{
-                $result = [
-                    //状态码
-                    'errno' => 1,
-                    //返回数据
-                    'message' => '失败了'
-                ];
-                //返回api接口
-                return Response::create($result,'json');
-            }
-        }else{
-            $result = [
-                //状态码
-                'errno' => 1,
-                //返回数据
-                'message' => '没有获取到图片'
-            ];
-            //返回api接口
-            return Response::create($result,'json');
+            $ucurl = curl_init();
+            curl_setopt_array($ucurl, array(
+                CURLOPT_URL => $res['url'],
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS =>'{"key":"'.$key.'","Signature":"'.$Signature.'","x-cos-security-token":"'.$security_token.'","x-cos-meta-fileid":"'.$meta_fileid.'","file":"'.$file.'"}',
+                CURLOPT_HTTPHEADER => array(
+                    'Content-Type: application/json'
+                ),
+            ));
+            $response1 = curl_exec($ucurl);
+            curl_close($ucurl);
+            $res1 = json_decode($response1);
+            return json_encode($res1);
         }
+
+
+
+
+//        if (count($info) != 0){
+//            $currentUrl = \think\facade\Request::instance()->domain();
+//            $data = ['imageUrl' => '/storage/'.$info[0]];
+//            $id = UploadModel::create($data)->getData('id');
+//            if (!empty($id)){
+//
+//                $result = [
+//                    //状态码
+//                    'errno' => 0,
+//                    //返回数据
+//                   'url'=> '/storage/'.$info[0]
+//                ];
+//                //返回api接口
+//                return Response::create($result,'json');
+//
+//
+//            }else{
+//                $result = [
+//                    //状态码
+//                    'errno' => 1,
+//                    //返回数据
+//                    'message' => '失败了'
+//                ];
+//                //返回api接口
+//                return Response::create($result,'json');
+//            }
+//        }else{
+//            $result = [
+//                //状态码
+//                'errno' => 1,
+//                //返回数据
+//                'message' => '没有获取到图片'
+//            ];
+//            //返回api接口
+//            return Response::create($result,'json');
+//        }
 
     }
 
