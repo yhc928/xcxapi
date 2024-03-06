@@ -19,12 +19,10 @@ class Cover extends AdminBase
 
             $info[] = Filesystem::putfile('topic',$file);
         }
-        //echo app()->getRootPath() . 'public/storage/'. $info[0];
 
         $ENVID = 'prod-4g7ozm3t0ab77771';
-        $position = strpos($info[0], "\\");
-        $fileName = substr($info[0],$position+1,strlen($info[0]));
-        echo "fileName 文件名：".$fileName;
+        $position = strpos($info[0], "20240306");
+        $fileName = substr($info[0],$position+9,strlen($info[0]));
         $PATH = 'cover/'.$fileName;
         $curl = curl_init();
         curl_setopt_array($curl, array(
@@ -54,9 +52,7 @@ class Cover extends AdminBase
             $Signature = $res['authorization'];
             $security_token = $res['token'];
             $meta_fileid =$res['cos_file_id'];
-            $file = app()->getRootPath().'public/storage/'.$info[0];
-
-            echo "本地上传文件路径:".$file;
+            $file = app()->getRootPath().'public/storage/topic/'.date('Ymd');
 
             $ucurl = curl_init();
             curl_setopt_array($ucurl, array(
@@ -75,7 +71,9 @@ class Cover extends AdminBase
             ));
             $response1 = curl_exec($ucurl);
             curl_close($ucurl);
-            echo $response1;
+            
+            echo json_encode($response1);
+
 //            return json_encode($res1);
         }
 
