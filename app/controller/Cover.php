@@ -96,9 +96,26 @@ class Cover extends AdminBase
         ));
         $response = curl_exec($curl1);
         curl_close($curl1);
-        echo json_encode($response);
-
-
+        $res = json_decode($response,true);
+        if ($res['errcode'] ==0) {
+            //获取到下载链接
+            $data = [
+                //状态码
+                  'errno' => $res['errcode'],
+                  //返回数据
+                  'errmsg' =>$res['errmsg'],
+                  'url'=> $res['file_list'][0]['download_url']
+            ];
+        }else{
+            $data = [
+                //状态码
+                'errno' => $res['errcode'],
+                'errmsg' => '图片上传失败！',
+                //返回数据
+                'url'=> ''
+            ];
+            return Response::create($data,'json');
+        }
 //        $url = "https://thinkphp-nginx-qrer-95012-8-1324748859.sh.run.tcloudbase.com?cloudid=".$res['file_id']; // 要访问的URL地址
 //        $result = json_decode(file_get_contents($url),true); // 发送GET请求并获取返回结果
 //        if ($result['errcode'] ==0){
