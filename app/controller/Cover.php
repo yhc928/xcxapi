@@ -44,7 +44,7 @@ class Cover extends AdminBase
         $res = json_decode($response,true);
 //        $res -> key = $PATH;
 //        echo json_encode($res);
-        echo "获取上传文件地址：".json_encode($res);
+//        echo "获取上传文件地址：".json_encode($res);
         if ($res['errcode'] == 0){
             //上传文件到云托管
 
@@ -53,7 +53,8 @@ class Cover extends AdminBase
             $security_token = $res['token'];
             $meta_fileid =$res['cos_file_id'];
             $file = app()->getRootPath().'public/storage/topic/'.date('Ymd');
-
+            echo  $res['url'];
+            echo  $key;
             $ucurl = curl_init();
             curl_setopt_array($ucurl, array(
                 CURLOPT_URL => $res['url'],
@@ -71,7 +72,7 @@ class Cover extends AdminBase
             ));
             $response1 = curl_exec($ucurl);
             curl_close($ucurl);
-            
+
             echo json_encode($response1);
 
 //            return json_encode($res1);
