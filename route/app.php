@@ -24,4 +24,10 @@ Route::rule('articleu','Article/update');
 Route::rule('upload','UploadImg/upload');
 //文章中的封面图片
 Route::rule('cover','Cover/upload');
+//小程序前端使用
+Route::rule('wxarticle','Article/readList');
+Route::rule('wxdetail','Article/readDetail');
+Route::rule('wxtuijian','Article/readtuijian');
+
+
 Route::rule('access_token','Cover/getaccess_token');

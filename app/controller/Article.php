@@ -63,7 +63,6 @@ class Article extends AdminBase
         $data = $request->param();
 
         $result = ArticleModel::where('typeid',$data['typeid'])->order('lasttime','desc')->paginate($this->pageSize);
-
         if ($result->isEmpty()){
             return $this->create($result,'暂无数据');
         }else{
@@ -76,11 +75,30 @@ class Article extends AdminBase
      * @param  int  $id
      * @return \think\Response
      */
-    public function read($id)
+    public function readDetail($id)
     {
-        //
+        $result = ArticleModel::find($id);
+        if ($result->isEmpty()){
+            return $this->create($result,'暂无数据');
+        }else{
+            return $this->create($result,'数据请求成功');
+        }
     }
-
+    /**
+     * 显示指定的类型资源
+     *
+     * @param  int  $id
+     * @return \think\Response
+     */
+    public function readtuijian($id)
+    {
+        $result = ArticleModel::where('istuijian',1)->where('id','<>',$id)->order('lasttime','desc')->select();
+        if ($result->isEmpty()){
+            return $this->create($result,'暂无数据');
+        }else{
+            return $this->create($result,'数据请求成功');
+        }
+    }
     /**
      * 保存更新的资源
      *
