@@ -19,12 +19,11 @@ class Cover extends AdminBase
 
             $info[] = Filesystem::putfile('topic',$file);
         }
-        echo '/storage/'.str_replace("\\","/",$info[0]);
+
        // dump($info);
-
         $ENVID = 'prod-4g7ozm3t0ab77771';
-        $PATH = '/storage/'.str_replace("\\","/",$info[0]);
-
+        $position = strpos($info[0], "\\");
+        $PATH = 'cover/'.substr($info[0],$position+1,strlen($info[0]));
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => 'http://api.weixin.qq.com/tcb/uploadfile',
@@ -49,42 +48,42 @@ class Cover extends AdminBase
 
 
 
-//        if (count($info) != 0){
-//            $currentUrl = \think\facade\Request::instance()->domain();
-//            $data = ['imageUrl' => '/storage/'.$info[0]];
-//            $id = UploadModel::create($data)->getData('id');
-//            if (!empty($id)){
-//
-//                $result = [
-//                    //状态码
-//                    'errno' => 0,
-//                    //返回数据
-//                   'url'=> '/storage/'.$info[0]
-//                ];
-//                //返回api接口
-//                return Response::create($result,'json');
-//
-//
-//            }else{
-//                $result = [
-//                    //状态码
-//                    'errno' => 1,
-//                    //返回数据
-//                    'message' => '失败了'
-//                ];
-//                //返回api接口
-//                return Response::create($result,'json');
-//            }
-//        }else{
-//            $result = [
-//                //状态码
-//                'errno' => 1,
-//                //返回数据
-//                'message' => '没有获取到图片'
-//            ];
-//            //返回api接口
-//            return Response::create($result,'json');
-//        }
+        if (count($info) != 0){
+            $currentUrl = \think\facade\Request::instance()->domain();
+            $data = ['imageUrl' => '/storage/'.$info[0]];
+            $id = UploadModel::create($data)->getData('id');
+            if (!empty($id)){
+
+                $result = [
+                    //状态码
+                    'errno' => 0,
+                    //返回数据
+                   'url'=> '/storage/'.$info[0]
+                ];
+                //返回api接口
+                return Response::create($result,'json');
+
+
+            }else{
+                $result = [
+                    //状态码
+                    'errno' => 1,
+                    //返回数据
+                    'message' => '失败了'
+                ];
+                //返回api接口
+                return Response::create($result,'json');
+            }
+        }else{
+            $result = [
+                //状态码
+                'errno' => 1,
+                //返回数据
+                'message' => '没有获取到图片'
+            ];
+            //返回api接口
+            return Response::create($result,'json');
+        }
 
     }
 
